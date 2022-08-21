@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnnoncesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +34,18 @@ class Annonces
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'annonces')]
+    private ?ProfilRecruteur $profilRecruteur = null;
+
+    #[ORM\OneToMany(mappedBy: 'annonces', targetEntity: CandidatsAnnonces::class)]
+    private Collection $candidats;
+
+    public function __construct()
+    {
+        $this->candidats = new ArrayCollection();
+    }
+
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +119,48 @@ class Annonces
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getProfilRecruteur(): ?ProfilRecruteur
+    {
+        return $this->profilRecruteur;
+    }
+
+    public function setProfilRecruteur(?ProfilRecruteur $profilRecruteur): self
+    {
+        $this->profilRecruteur = $profilRecruteur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CandidatsAnnonces>
+     */
+    public function getCandidats(): Collection
+    {
+        return $this->candidats;
+    }
+
+    public function addCandidat(CandidatsAnnonces $candidat): self
+    {
+        if (!$this->candidats->contains($candidat)) {
+            $this->candidats->add($candidat);
+            $candidat->setAnnonces($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidat(CandidatsAnnonces $candidat): self
+    {
+        if ($this->candidats->removeElement($candidat)) {
+            // set the owning side to null (unless already changed)
+            if ($candidat->getAnnonces() === $this) {
+                $candidat->setAnnonces(null);
+            }
+        }
 
         return $this;
     }

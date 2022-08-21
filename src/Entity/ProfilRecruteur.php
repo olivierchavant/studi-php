@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProfilRecruteurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProfilRecruteurRepository::class)]
@@ -24,6 +26,16 @@ class ProfilRecruteur
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tel = null;
+
+    #[ORM\OneToMany(mappedBy: 'profilRecruteur', targetEntity: Annonces::class)]
+    private Collection $annonces;
+
+   
+    public function __construct()
+    {
+        $this->annonce = new ArrayCollection();
+        $this->annonces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,4 +89,36 @@ class ProfilRecruteur
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Annonces>
+     */
+    public function getAnnonces(): Collection
+    {
+        return $this->annonces;
+    }
+
+    public function addAnnonce(Annonces $annonce): self
+    {
+        if (!$this->annonces->contains($annonce)) {
+            $this->annonces->add($annonce);
+            $annonce->setProfilRecruteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnonce(Annonces $annonce): self
+    {
+        if ($this->annonces->removeElement($annonce)) {
+            // set the owning side to null (unless already changed)
+            if ($annonce->getProfilRecruteur() === $this) {
+                $annonce->setProfilRecruteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+   
 }

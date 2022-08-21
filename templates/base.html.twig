@@ -54,7 +54,10 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" int
           Annonces
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="{{ path('app_login') }}">Liste annonces </a>
+          <a class="dropdown-item" href="{{ path('app_annonces') }}">Liste annonces </a>
+          {% if is_granted('ROLE_RECRUTEUR') %}
+           <a class="dropdown-item" href="{{ path('app_annonces_registration')}}">Créer une Annonce </a>
+           {% endif %}
           <a class="dropdown-item" href="#">Listes de mes annonces </a>
         </div>
          <li class="nav-item">

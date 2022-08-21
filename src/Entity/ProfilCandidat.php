@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProfilCandidatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +27,17 @@ class ProfilCandidat
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\OneToMany(mappedBy: 'profilCandidat', targetEntity: CandidatsAnnonces::class)]
+    private Collection $Postuler;
+
+  
+
+    public function __construct()
+    {
+        $this->annonces = new ArrayCollection();
+        $this->Postuler = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,4 +91,35 @@ class ProfilCandidat
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, CandidatsAnnonces>
+     */
+    public function getPostuler(): Collection
+    {
+        return $this->Postuler;
+    }
+
+    public function addPostuler(CandidatsAnnonces $postuler): self
+    {
+        if (!$this->Postuler->contains($postuler)) {
+            $this->Postuler->add($postuler);
+            $postuler->setProfilCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostuler(CandidatsAnnonces $postuler): self
+    {
+        if ($this->Postuler->removeElement($postuler)) {
+            // set the owning side to null (unless already changed)
+            if ($postuler->getProfilCandidat() === $this) {
+                $postuler->setProfilCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

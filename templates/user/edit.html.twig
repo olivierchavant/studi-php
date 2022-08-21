@@ -12,7 +12,11 @@
         {{ form_row(registrationForm.profil) }}
         {{ form_row(registrationForm.roles) }}
 
-        <button type="submit" class="btn">Valider</button>
+        <button type="submit" class="btn btn-lg btn-success">Valider</button>
+
+        <button class="btn btn-lg btn-primary" > Annuler 
+            <a href="{{ path('app_default')}}" >  </a>
+        </button>
     {{ form_end(registrationForm) }}
 </div>
 {% endblock %}
