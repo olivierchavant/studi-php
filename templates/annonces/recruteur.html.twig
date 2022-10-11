@@ -8,32 +8,31 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 <div class="container">
-    <h1> Liste des candidats </h1>
+    <h1> Liste de mes annonces </h1>
     <div class="">  
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">email</th>
-                <th scope="col">username</th>
-                <th scope="col">role</th>
+                <th scope="col">titre</th>
                 <th scope="col">Handle</th>
+    
                 </tr>
             </thead>
             <tbody>
-            {% for candidat in candidats %}
+            {% for annonce in annonces %}
                 <tr>
                 
-                <td>{{ candidat.email }}</td>
-                <td>{{ candidat.username }}</td>
-                {% for role in candidat.roles %}
-						<td>{{ role }}</td>
-				{% endfor %}  
-                 {% if is_granted('ROLE_CANDIDAT') %}
-                <td><a href="{{ path('app_profil_candidat', { 'id': candidat.id }  ) }}" class="btn btn-success btn-sm">
+                <td>{{ annonce.titre }}</td>
+                <td>  <a href="{{ path('app_annonce_remove', { 'id': annonce.id }) }}" class="btn btn-warning btn-sm">
+                         {{ "Supprimer" | trans }}
+                </a> </td>
+              
+               
+                <td>  <a href="{{ path('app_annonce_candidat', { 'id': annonce.id }) }}" class="btn btn-success btn-sm">
                          {{ "Editer" | trans }}
-                </a>
-                </td>
-                {% endif %}
+                </a> </td>
+                
+               
                 </tr>
             </tbody>
             {% endfor %}

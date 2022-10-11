@@ -23,6 +23,7 @@ class RegistrationFormType extends AbstractType
                 'choices' => [
                     'Candidat' => 'Candidat',
                     'Recruteur' => 'Recruteur'
+                
                 ],
                 'expanded' => true,
                 'multiple' => false,

@@ -17,9 +17,48 @@
         <li> Salaire annuel : {{ annonce.salaire}} </li>
         <li> Description : {{ annonce.description}} </li>
     </ul>
-    <a href="{{ path('app_postuler_annonce', { 'id': annonce.id }) }}" class="btn btn-success btn-sm">
-                         {{ "Postuler" | trans }}
+
+
+    {% if is_granted('ROLE_RECRUTEUR') %}
+            <a href="{{ path('app_annonces_registration', { 'id': annonce.id }) }}" class="btn btn-success btn-sm">
+                         {{ "Modifier" | trans }}
+            </a>
+    {% endif %}
+
+     {% if is_granted('ROLE_RECRUTEUR') %}
+            
+
+    <h2> Liste des candidats postulants à cette annonce </h2> 
+    
+       <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">handle</th>
+                </tr>
+            </thead>
+            {% for candidat in candidats %}
+            <tbody>
+   
+                <tr>
+                
+                <td>{{ candidat.profilCandidat.nom }}</td>
+                <td><a href="{{ path('app_profil_candidat_r', { 'id': candidat.profilCandidat.id }  ) }}" class="btn btn-success btn-sm">
+                         {{ "Editer" | trans }}
                 </a>
+                </td>
+                
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    {% endif %}
+            {% if is_granted('ROLE_CANDIDAT') %}
+            <a href="{{ path('app_postuler_annonce', { 'id': annonce.id }) }}" class="btn btn-success btn-lg">
+                         {{ "Postuler" | trans }}
+            </a>
+            {% endif %}
+             <button class="btn btn-lg btn-success"  onclick="history.go(-1);"> retour  </button>
    
 </div>
 {% endblock %}

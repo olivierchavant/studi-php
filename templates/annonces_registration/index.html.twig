@@ -13,7 +13,8 @@
         {{ form_row(registrationForm.salaire) }}
         {{ form_row(registrationForm.description) }}
 
-        <button type="submit" class="btn">Register</button>
+        <button type="submit" class="btn btn-lg btn-success">Enregistrer</button>
+        <button class="btn btn-lg btn-success"  onclick="history.go(-1);"> retour  </button>
     {{ form_end(registrationForm) }}
 </div>
 {% endblock %}

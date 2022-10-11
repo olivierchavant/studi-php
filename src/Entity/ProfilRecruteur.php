@@ -27,7 +27,7 @@ class ProfilRecruteur
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tel = null;
 
-    #[ORM\OneToMany(mappedBy: 'profilRecruteur', targetEntity: Annonces::class)]
+    #[ORM\OneToMany(mappedBy: 'profilRecruteur', targetEntity: Annonces::class, cascade: ['persist', 'remove'])]
     private Collection $annonces;
 
    

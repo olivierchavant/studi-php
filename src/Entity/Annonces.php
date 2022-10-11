@@ -34,10 +34,11 @@ class Annonces
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annonces')]
+    #[ORM\ManyToOne(inversedBy: 'annonces' )]
     private ?ProfilRecruteur $profilRecruteur = null;
 
-    #[ORM\OneToMany(mappedBy: 'annonces', targetEntity: CandidatsAnnonces::class)]
+    #[ORM\OneToMany(mappedBy: 'annonces', targetEntity: CandidatsAnnonces::class, cascade: ['remove', 'persist'] )] 
+
     private Collection $candidats;
 
     public function __construct()

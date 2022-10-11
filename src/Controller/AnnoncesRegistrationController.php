@@ -14,10 +14,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AnnoncesRegistrationController extends AbstractController
 {
-    #[Route('/annonces/registration', name: 'app_annonces_registration')]
+    #[Route('/annonces/registration/{id}', name: 'app_annonces_registration')]
     public function index(Request $request, EntityManagerInterface $em, int $id = null): Response
     {
-        $annonce = new Annonces(); 
+        if($id) {
+            $mode = 'update';
+            // On récupère l'article qui correspond à l'id passé dans l'url
+            $annonce = $em->getRepository(Annonces::class)->findBy(['id' => $id])[0];
+        } else {  $annonce = new Annonces();  }
+
+
+       
         $identifier = $this->getUser(); 
         $ProfilId = $identifier->getProfilRecruteur()->getId(); 
         $ProfilRecruteur = $em->getRepository(ProfilRecruteur::class)->findBy([ 'id'  => $ProfilId])[0] ; 
@@ -31,7 +38,7 @@ class AnnoncesRegistrationController extends AbstractController
             $em->persist($annonce); 
             $em->persist($ProfilRecruteur); 
             $em->flush(); 
-            return $this->redirectToRoute('app_users');
+            return $this->redirectToRoute('app_annonces_recruteur');
         }; 
           $parameters = array(
             'registrationForm'      => $form->createView() 
