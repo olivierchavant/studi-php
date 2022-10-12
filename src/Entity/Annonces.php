@@ -41,9 +41,13 @@ class Annonces
 
     private Collection $candidats;
 
+    #[ORM\Column]
+    private ?bool $validated = null;
+
     public function __construct()
     {
         $this->candidats = new ArrayCollection();
+        $this->validated = false ; 
     }
 
    
@@ -162,6 +166,18 @@ class Annonces
                 $candidat->setAnnonces(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isValidated(): ?bool
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(bool $validated): self
+    {
+        $this->validated = $validated;
 
         return $this;
     }

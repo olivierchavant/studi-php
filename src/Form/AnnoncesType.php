@@ -16,7 +16,7 @@ class AnnoncesType extends AbstractType
             ->add('poste')
             ->add('domaine')
             ->add('salaire')
-            
+            ->add('validated')
             ->add('description')
         ;
     }

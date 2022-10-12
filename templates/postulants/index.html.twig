@@ -8,35 +8,31 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 <div class="container">
-    <h1> Liste des annonces </h1>
+    <h1> Liste des postulants en attente </h1>
     <div class="">  
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">titre</th>
-                <th scope="col">poste</th>
-                <th scope="col">domaine</th>
+                <th scope="col">Nom </th>
+                <th scope="col">Poste </th>
+                <th scope="col">état </th>
                 <th scope="col">Handle</th>
                 </tr>
             </thead>
             <tbody>
-            {% for annonce in annonces %}
+            {% for postulant in postulants %}
                 <tr>
                 
-                <td>{{ annonce.titre }}</td>
-                <td>{{ annonce.poste }}</td>
-                <td>{{ annonce.domaine }}</td>
-                <td>{% if annonce.validated %} 
+                <td>{{ postulant.profilCandidat.nom }}</td>
+                <td>{{ postulant.annonces.titre }}</td>
+                <td>{% if postulant.validé %} 
                         Validée
                     {% else %} Non validée 
                     {% endif %} </td>
-                <td>  <a href="{{ path('app_annonce_remove', { 'id': annonce.id }) }}" class="btn btn-warning btn-sm">
-                         {{ "Supprimer" | trans }}
-                </a> </td>
-                <td>  <a href="{{ path('app_annonce', { 'id': annonce.id }) }}" class="btn btn-success btn-sm">
-                         {{ "Editer" | trans }}
-                </a> </td>
-                
+                {% if is_granted('ROLE_CONSULTANT') %}
+                    <td> <a href="{{ path('app_annonces_postulant', { 'annonceId': postulant.annonces.id , 'candidatId': postulant.profilCandidat.id } ) }}" class="btn btn-lg btn-success"> {{ "Modifier" | trans }}
+                        </a> </td> 
+                {% endif %}
                
                 </tr>
             </tbody>

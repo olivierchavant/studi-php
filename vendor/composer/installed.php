@@ -1,15 +1,24 @@
 <?php return array(
     'root' => array(
-        'name' => 'symfony/website-skeleton',
-        'pretty_version' => 'v6.1.99',
-        'version' => '6.1.99.0',
-        'reference' => NULL,
+        'name' => '__root__',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'c0846072c9d8bd72522c53689fcc29b27db9b1fa',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'c0846072c9d8bd72522c53689fcc29b27db9b1fa',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'doctrine/annotations' => array(
             'pretty_version' => '1.13.3',
             'version' => '1.13.3.0',
@@ -864,9 +873,9 @@
             'dev_requirement' => false,
         ),
         'symfony/mailer' => array(
-            'pretty_version' => 'v6.1.3',
-            'version' => '6.1.3.0',
-            'reference' => 'b2db228a93278863d1567f90d7caf26922dbfede',
+            'pretty_version' => 'v6.1.5',
+            'version' => '6.1.5.0',
+            'reference' => 'e1b32deb9efc48def0c76b876860ad36f2123e89',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/mailer',
             'aliases' => array(),
@@ -1258,15 +1267,6 @@
             'install_path' => __DIR__ . '/../symfony/web-profiler-bundle',
             'aliases' => array(),
             'dev_requirement' => true,
-        ),
-        'symfony/website-skeleton' => array(
-            'pretty_version' => 'v6.1.99',
-            'version' => '6.1.99.0',
-            'reference' => NULL,
-            'type' => 'project',
-            'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
-            'dev_requirement' => false,
         ),
         'symfony/yaml' => array(
             'pretty_version' => 'v6.1.3',

@@ -19,11 +19,21 @@ class AnnoncesController extends AbstractController
     #[Route('/annonces', name: 'app_annonces')]
     public function index(EntityManagerInterface $em): Response
     {
-        $annonces = $em->getRepository(Annonces::class)->findAll();
+        $annonces = $em->getRepository(Annonces::class)->findBy(['validated' => true]);
         return $this->render('annonces/index.html.twig', [
             'annonces' => $annonces,
         ]);
     }
+
+    #[Route('/annoncesAValider', name: 'app_annonces_AV')]
+    public function aValider(EntityManagerInterface $em): Response
+    {
+        $annonces = $em->getRepository(Annonces::class)->findBy(['validated' => false]);
+        return $this->render('annonces/index.html.twig', [
+            'annonces' => $annonces,
+        ]);
+    }
+
 
     #[Route('/annonce/{id}', name: 'app_annonce')]
     public function annonce(EntityManagerInterface $em, int $id=null) 
@@ -109,6 +119,28 @@ class AnnoncesController extends AbstractController
             
         ]);
     }
+
+    // #[Route('/annonces/candidatValidated/{id}', name: 'app_annonces_candidat_validated')]
+    // public function annonceCandidatValidated(EntityManagerInterface $em, int $id=null) 
+
+    // {   
+        
+    //     $annonces = $em->getRepository(CandidatsAnnonces::class)->findBy(['validé' => false]); 
+    //     dd($annonces);
+
+    //     if ($id) { 
+    //         $annonces = $em->getRepository(CandidatsAnnonces::class)->findBy(['validé' => false, 'id' => $id]);
+    //         $annonces->setValidé(true); 
+    //         $em->persist($annonces); 
+    //         $em->flush(); 
+    //     }
+        
+    //     return $this->render('annonces/candidat.html.twig', [
+    //         'annonces' => $annonces,
+            
+    //     ]);
+    // }
+    
     #[Route('/annonce/remove/{id}', name: 'app_annonce_remove')]
     public function remove(EntityManagerInterface $em, int $id): Response
     {

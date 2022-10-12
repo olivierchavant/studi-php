@@ -25,54 +25,64 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" int
        {% if is_granted('ROLE_ADMIN') %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Utilisateurs
+          Administrateur
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
        
           <a class="dropdown-item" href="{{ path('app_users') }}">Liste Utilisateurs En attente </a>
-          <a class="dropdown-item" href="#">Liste Utilisateurs Confirmés </a>
-          <a class="dropdown-item" href=href="{{ path('app_register') }}" >Créer Compte Utilisateur Consultant </a>
-          <a class="dropdown-item" href="#">modifier votre profil  </a>
-        </div>
-      </li>
-      {% endif %}
-     <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Utilisateurs
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-         {% if is_granted('ROLE_ADMIN') %}
-          <a class="dropdown-item" href="{{ path('app_profil_candidats')}}">liste Candidats </a>
-        {% endif %}
-           {% if is_granted('ROLE_CANDIDAT') %}
-           <a class="dropdown-item" href="{{ path('app_annonces_candidat')}}">mes Annonces </a>
-            <a class="dropdown-item" href="{{ path('app_profil_candidat')}}">Mon profil </a>
-            <a class="dropdown-item" href="{{ path('app_annonces') }}">Liste annonces </a>
-           {% else %}
-              {% if is_granted('ROLE_RECRUTEUR') %}
-            <a class="dropdown-item" href="{{ path('app_annonces_recruteur')}}">mes Annonces </a>
-              <a class="dropdown-item" href="{{ path('app_profil_recruteur')}}">Mon profil </a>
-               <a class="dropdown-item" href="{{ path('app_annonces_registration')}}">Créer une Annonce </a>
-            {% endif %}
-          {% endif %} 
+          <a class="dropdown-item" href="{{ path('app_register') }}" >Créer Compte Utilisateur Consultant </a>
 
         </div>
       </li>
-      {% if is_granted('ROLE_ADMIN') %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Recruteurs
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Liste Recruteurs </a>
-        </div>
-      </li>
       {% endif %}
-      
+
+     {% if is_granted('ROLE_CONSULTANT') %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Consultant
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="{{ path('app_postulant_AV')}}">liste Candidats postulant a valider</a>
+          <a class="dropdown-item" href="{{ path('app_annonces_AV') }}">Liste annonces a valider</a>
+            </div>
+        </li>
+
+      {% endif %}
+
+      {% if is_granted('ROLE_CANDIDAT') %}
+           <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Candidat
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="{{ path('app_annonces_candidat')}}">mes Annonces </a>
+                  <a class="dropdown-item" href="{{ path('app_profil_candidat')}}">Mon profil </a>
+                  <a class="dropdown-item" href="{{ path('app_annonces') }}">Liste annonces </a>
+              </div>
+          </li>
+
+      {% else %}
+        {% if is_granted('ROLE_RECRUTEUR') %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Recruteur
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+              <a class="dropdown-item" href="{{ path('app_annonces_recruteur')}}">mes Annonces </a>
+              <a class="dropdown-item" href="{{ path('app_profil_recruteur')}}">Mon profil </a>
+              <a class="dropdown-item" href="{{ path('app_annonces_registration')}}">Créer une Annonce </a>
+            </div>
+          </li>
+
+        {% endif %}
+      {% endif %} 
+
         <a class="nav-link" href="{{ path('app_login') }}">Login </a>
       </li>
-       
-      </li>
+               </div>
+    
+
     </ul>
   </div>
 </nav>

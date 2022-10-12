@@ -23,9 +23,14 @@
                 <tr>
                 
                 <td>{{ annonce.titre }}</td>
+                
                 <td>  <a href="{{ path('app_annonce_remove', { 'id': annonce.id }) }}" class="btn btn-warning btn-sm">
                          {{ "Supprimer" | trans }}
                 </a> </td>
+                <td>{% if annonce.validated %} 
+                        Validée
+                    {% else %} Attente Validation 
+                    {% endif %} </td>
               
                
                 <td>  <a href="{{ path('app_annonce_candidat', { 'id': annonce.id }) }}" class="btn btn-success btn-sm">

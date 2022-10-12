@@ -23,6 +23,11 @@
                 <tr>
                 
                 <td>{{ annonce.annonces.titre }}</td>
+                <td>{% if annonce.validé %} 
+                        Approuvée
+                    {% else %} Attente Approbation 
+                    {% endif %} </td>
+
               
                
                 <td>  <a href="{{ path('app_annonce_candidat', { 'id': annonce.annonces.id }) }}" class="btn btn-success btn-sm">

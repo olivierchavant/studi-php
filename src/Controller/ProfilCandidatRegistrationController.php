@@ -23,6 +23,8 @@ class ProfilCandidatRegistrationController extends AbstractController
             // On récupère l'article qui correspond à l'id passé dans l'url
             $profilCurrentCandidat = $em->getRepository(ProfilCandidat::class)->findBy(['id' => $id])[0];
         }
+
+        
         $form = $this->createForm(ProfilCandidatType::class, $profilCurrentCandidat);
         $form->handleRequest($request);
 

@@ -22,9 +22,6 @@ class AnnoncesRegistrationController extends AbstractController
             // On récupère l'article qui correspond à l'id passé dans l'url
             $annonce = $em->getRepository(Annonces::class)->findBy(['id' => $id])[0];
         } else {  $annonce = new Annonces();  }
-
-
-       
         $identifier = $this->getUser(); 
         $ProfilId = $identifier->getProfilRecruteur()->getId(); 
         $ProfilRecruteur = $em->getRepository(ProfilRecruteur::class)->findBy([ 'id'  => $ProfilId])[0] ; 
@@ -32,7 +29,6 @@ class AnnoncesRegistrationController extends AbstractController
         $annonce->setDatePublication(new DateTime('now'));
         $form = $this->createForm(AnnoncesType::class, $annonce);
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()) {
            
             $em->persist($annonce); 
@@ -48,4 +44,33 @@ class AnnoncesRegistrationController extends AbstractController
         return $this->render('annonces_registration/index.html.twig', $parameters);
        
     }
+
+    #[Route('/annonces/registrationValidated/{id}', name: 'app_annonces_registrationValidated')]
+
+    public function validated(Request $request, EntityManagerInterface $em, int $id = null): Response
+    {
+        if($id) {
+            $mode = 'update';
+            // On récupère l'article qui correspond à l'id passé dans l'url
+            $annonce = $em->getRepository(Annonces::class)->findBy(['id' => $id])[0];
+        } else {  $annonce = new Annonces();  }
+       
+        $annonce->setValidated(true); 
+        $form = $this->createForm(AnnoncesType::class, $annonce);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+           
+            $em->persist($annonce);  
+            $em->flush(); 
+            return $this->redirectToRoute('app_annonces_AV');
+        }; 
+          $parameters = array(
+            'registrationForm'      => $form->createView() 
+        );
+      
+
+        return $this->render('annonces_registration/index.html.twig', $parameters);
+       
+    }
 }
+

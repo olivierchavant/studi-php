@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+<div class="container">
+    <h1> Annonce {{annonce.titre}} </h1>
+    <ul>
+        <li> Date de publication  : {{ annonce.datePublication |date('Y-m-d') }} </li>
+        <li> Poste : {{ annonce.poste}} </li>
+        <li> Domaine : {{ annonce.domaine}} </li>
+        <li> Salaire annuel : {{ annonce.salaire}} </li>
+        <li> Description : {{ annonce.description}} </li>
+    </ul>
+
+ <h1> Profil candidat  </h1>
+    <ul>
+        <li> Nom  : {{ candidat.nom }} </li>
+        <li> Prenom  : {{ candidat.prenom }} </li>
+        
+        <h3> Adresse </h3> 
+        <li> rue  : {{ candidat.rue }} </li>
+        <li> ville  : {{ candidat.ville }} </li>
+        <li> code postal  : {{ candidat.codePostal }} </li>
+        <h3> Divers </h3> 
+        <li> Téléphone  : {{ candidat.Tel }} </li>
+        <li> age : {{ candidat.age}} </li>
+        <li> description : {{ candidat.description}} </li>
+        <li> description : {{ association.id }} </li>
+        
+
+            {% if candidat.cv is not empty %}
+             <li> cv : {{ candidat.cv}}  
+                 <a href="{{ path('app_download_cv', { 'cv': candidat.cv }) }}" class="btn btn-lg btn-success" > {{ "Télécharger" | trans }} </a>
+             </li>
+            {% else %} 
+                <li> Pas de CV téléchargé </li> 
+            {% endif %}
+       
+    </ul> 
+    {% if is_granted('ROLE_CONSULTANT') %}
+            <a href="{{ path('app_annonces_PV', { 'id': association.id }) }}" class="btn btn-success btn-sm">
+                         {{ "Vadider" | trans }}
+            </a>
+    {% endif %}
+
+             <button class="btn btn-lg btn-success"  onclick="history.go(-1);"> retour  </button>
+   
+</div>
+{% endblock %}
+

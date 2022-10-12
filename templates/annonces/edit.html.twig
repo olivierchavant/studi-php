@@ -24,10 +24,14 @@
                          {{ "Modifier" | trans }}
             </a>
     {% endif %}
+     {% if is_granted('ROLE_CONSULTANT') %}
+            <a href="{{ path('app_annonces_registrationValidated', { 'id': annonce.id }) }}" class="btn btn-success btn-sm">
+                         {{ "Vadider" | trans }}
+            </a>
+    {% endif %}
 
      {% if is_granted('ROLE_RECRUTEUR') %}
             
-
     <h2> Liste des candidats postulants à cette annonce </h2> 
     
        <table class="table">
