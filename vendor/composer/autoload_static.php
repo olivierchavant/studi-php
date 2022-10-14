@@ -596,6 +596,7 @@ class ComposerStaticInitdf2448599cae514aa040d9b57a6b5fef
         'App\\Form\\AnnoncesType' => __DIR__ . '/../..' . '/src/Form/AnnoncesType.php',
         'App\\Form\\ProfilCandidatType' => __DIR__ . '/../..' . '/src/Form/ProfilCandidatType.php',
         'App\\Form\\ProfilRecruteurType' => __DIR__ . '/../..' . '/src/Form/ProfilRecruteurType.php',
+        'App\\Form\\RegistrationFormConsultantType' => __DIR__ . '/../..' . '/src/Form/RegistrationFormConsultantType.php',
         'App\\Form\\RegistrationFormType' => __DIR__ . '/../..' . '/src/Form/RegistrationFormType.php',
         'App\\Form\\UserType' => __DIR__ . '/../..' . '/src/Form/UserType.php',
         'App\\Kernel' => __DIR__ . '/../..' . '/src/Kernel.php',

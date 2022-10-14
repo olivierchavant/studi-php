@@ -25,6 +25,7 @@ return array(
     'App\\Form\\AnnoncesType' => $baseDir . '/src/Form/AnnoncesType.php',
     'App\\Form\\ProfilCandidatType' => $baseDir . '/src/Form/ProfilCandidatType.php',
     'App\\Form\\ProfilRecruteurType' => $baseDir . '/src/Form/ProfilRecruteurType.php',
+    'App\\Form\\RegistrationFormConsultantType' => $baseDir . '/src/Form/RegistrationFormConsultantType.php',
     'App\\Form\\RegistrationFormType' => $baseDir . '/src/Form/RegistrationFormType.php',
     'App\\Form\\UserType' => $baseDir . '/src/Form/UserType.php',
     'App\\Kernel' => $baseDir . '/src/Kernel.php',
