@@ -16,6 +16,8 @@
         <li> Domaine : {{ annonce.domaine}} </li>
         <li> Salaire annuel : {{ annonce.salaire}} </li>
         <li> Description : {{ annonce.description}} </li>
+       
+
     </ul>
 
 
@@ -25,7 +27,7 @@
             </a>
     {% endif %}
      {% if is_granted('ROLE_CONSULTANT') %}
-            <a href="{{ path('app_annonces_registrationValidated', { 'id': annonce.id }) }}" class="btn btn-success btn-sm">
+            <a href="{{ path('app_annonces_registrationValidated', { 'id': annonce.id }) }}" class="btn btn-success btn-lg">
                          {{ "Vadider" | trans }}
             </a>
     {% endif %}
@@ -58,11 +60,13 @@
         </table>
     {% endif %}
             {% if is_granted('ROLE_CANDIDAT') %}
-            <a href="{{ path('app_postuler_annonce', { 'id': annonce.id }) }}" class="btn btn-success btn-lg">
-                         {{ "Postuler" | trans }}
-            </a>
+                {% if mode is not same as ('update') %}
+                <a href="{{ path('app_postuler_annonce', { 'id': annonce.id }) }}" class="btn btn-success btn-lg">
+                            {{ "Postuler" | trans }}
+                </a>
+                {% endif %}
             {% endif %}
-             <button class="btn btn-lg btn-success"  onclick="history.go(-1);"> retour  </button>
+             <button class="btn btn-lg btn-primary"  onclick="history.go(-1);"> retour  </button>
    
 </div>
 {% endblock %}

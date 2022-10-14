@@ -12,6 +12,7 @@ use App\Entity\User;
 class ProfilRecruteurController extends AbstractController
 {
     #[Route('/profil/recruteur', name: 'app_profil_recruteur')]
+    
     public function index(): Response
     {
         return $this->render('profil_recruteur/index.html.twig', [
@@ -21,6 +22,8 @@ class ProfilRecruteurController extends AbstractController
 
 
 #[Route('/profil/recruteur/{id} ', name: 'app_profil_recruteur')]
+
+    // récupération profil recruteur depuis Id passé dans url ou depuis l'ID du recruteur connecté 
 
     public function candidat(EntityManagerInterface $em , int $id=null ): Response
 

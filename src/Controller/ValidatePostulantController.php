@@ -19,21 +19,22 @@ class ValidatePostulantController extends AbstractController
    
 
     #[Route('/postulantAValider', name: 'app_postulant_AV')]
-
+    // liste des candidatures à valider 
     public function aValider(EntityManagerInterface $em): Response
     {
         $postulant = $em->getRepository(CandidatsAnnonces::class)->findBy(['validé' => false]);
-        // dd($postulant); 
         return $this->render('postulants/index.html.twig', [
             'postulants' => $postulant 
         ]);
     }
 
     #[Route('/annoncesPostulant/{annonceId} {candidatId}', name: 'app_annonces_postulant')]
+
+    // récupération des informations d'une candidature ,  Profil candidat et annonces 
+
     public function annoncesPostulant(EntityManagerInterface $em, int $annonceId=null ,int $candidatId=null ): Response
     {
 
-        // dd($annonceId, $candidatId);
         $association = $em->getRepository(CandidatsAnnonces::class)->findBy(['profilCandidat' => $candidatId , 'annonces' => $annonceId])[0]; 
         // dd($association);
         $annonce = $em->getRepository(Annonces::class)->findBy(['id' => $annonceId ])[0];
@@ -50,6 +51,8 @@ class ValidatePostulantController extends AbstractController
 
     #[Route('/annonces/annoncePostulantValider/{id}', name: 'app_annonces_PV')]
 
+    // Validation d'une candidature par le consultant et envoi d'un mail au recruteur avec CV candidat joint
+
     public function validatedPostulant(MailerInterface $mailer, EntityManagerInterface $em, int $id = null): Response
 
     {
@@ -60,13 +63,13 @@ class ValidatePostulantController extends AbstractController
             $recruteur = $association->getAnnonces()->getProfilRecruteur()->getId();
             // recherche adresse expéditeur
             $from = $this->getUser()->getEmail(); 
-            // recherche adresse destinataire
+           
             $toId = $association->getProfilCandidat()->getcv();
             $path = $this->getParameter('cv_directory'); 
             
             
             $ToEmail = $em->getRepository(User::class)->findBy(['ProfilRecruteur' => $recruteur])[0]; 
- 
+             // recherche adresse destinataire
             $destEmail = $ToEmail->getEmail(); 
           
             // recupération du titre de l'annonce 
@@ -76,7 +79,7 @@ class ValidatePostulantController extends AbstractController
             $em->persist($association);  
             $em->flush(); 
             // création du mail de validation de candidature 
-            $mail = (new TemplatedEmail())
+            $mail = (new TemplatedEmail()) // utrilisation d'un template HTML Twig pour le corps du mail 
                 
             ->from($from)
             ->to($destEmail)

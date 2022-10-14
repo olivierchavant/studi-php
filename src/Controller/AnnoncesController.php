@@ -6,10 +6,7 @@ use App\Entity\Annonces;
 use App\Entity\CandidatsAnnonces;
 use App\Entity\ProfilCandidat;
 use App\Entity\ProfilRecruteur;
-use App\Entity\User;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AnnoncesController extends AbstractController
 {
     #[Route('/annonces', name: 'app_annonces')]
+    // liste des annonces validée par le consultant 
     public function index(EntityManagerInterface $em): Response
     {
         $annonces = $em->getRepository(Annonces::class)->findBy(['validated' => true]);
@@ -26,6 +24,7 @@ class AnnoncesController extends AbstractController
     }
 
     #[Route('/annoncesAValider', name: 'app_annonces_AV')]
+    // liste des annonces à àvalider par la consultant 
     public function aValider(EntityManagerInterface $em): Response
     {
         $annonces = $em->getRepository(Annonces::class)->findBy(['validated' => false]);
@@ -36,46 +35,44 @@ class AnnoncesController extends AbstractController
 
 
     #[Route('/annonce/{id}', name: 'app_annonce')]
+    // recherche annonce par ID 
     public function annonce(EntityManagerInterface $em, int $id=null) 
 
-    {   
+    {   $mode = null ; 
         $annonce = $em->getRepository(Annonces::class)->findBy(['id' => $id])[0]; 
         $RecruteurId = $annonce->getProfilRecruteur(); 
         $profilCurrentRecruteur = $em->getRepository(ProfilRecruteur::class)->findBy(['id' => $RecruteurId])[0];
         
         return $this->render('annonces/edit.html.twig', [
             'annonce' => $annonce,
-            'recruteur' => $profilCurrentRecruteur
+            'recruteur' => $profilCurrentRecruteur,
+            'mode' => $mode
         ]);
     }
 
     #[Route('/annonceCandidat/{id}', name: 'app_annonce_candidat')]
-    public function annonce_candidat(EntityManagerInterface $em, int $id=null) 
+    // recherche annoces par candidat 
+    public function annonce_candidat(EntityManagerInterface $em, int $id=null ) 
 
-    {   
+    {   if($id){ 
+        $mode = 'update'; 
+       }; 
         $annonce = $em->getRepository(Annonces::class)->find(['id' => $id]); 
-        // dd($annonce);
-
         $candidat = $em->getRepository((CandidatsAnnonces::class))->findBy(['annonces' => $id ]); 
-
-         // dd($candidat);
-// // 
-//         $candidatSelect = $em->getRepository((User::class))->findBy(["id" => $candidat[0]->getId()]); 
-//         // $recruteur = $em->getRepository((ProfilRecruteur::class))->find([]) 
-//         dd($candidatSelect) ; 
         $RecruteurId = $annonce->getProfilRecruteur(); 
         $profilCurrentRecruteur = $em->getRepository(ProfilRecruteur::class)->findBy(['id' => $RecruteurId])[0];
-        
+       
         return $this->render('annonces/edit.html.twig', [
             'annonce' => $annonce,
             'recruteur' => $profilCurrentRecruteur, 
             'candidats' => $candidat , 
-            
-            
+            'mode' => $mode
         ]);
     }
 
+
     #[Route('/annonce/postuler/{id}', name: 'app_postuler_annonce')]
+    // alimentation de la table associative CandidatsAnnonces pour poser sa candidature à une annonce
     public function postuler(EntityManagerInterface $em, int $id=null) 
 
     {   $this->denyAccessUnlessGranted('ROLE_CANDIDAT');
@@ -101,55 +98,30 @@ class AnnoncesController extends AbstractController
         
     } 
 
-
     
     #[Route('/annonces/candidat/{id}', name: 'app_annonces_candidat')]
+    // liste des annonces par Candidat 
     public function annonceCandidat(EntityManagerInterface $em, int $id=null) 
 
     {   
         $candidatId = $this->getUser()->getProflCandidatid()->getId();
-        // dd($candidatId); 
         $annonces = $em->getRepository(CandidatsAnnonces::class)->findBy(['profilCandidat' => $candidatId]); 
-        // dd($annonces); 
-        // $RecruteurId = $annonce->getProfilRecruteur(); 
-        // $profilCurrentRecruteur = $em->getRepository(ProfilRecruteur::class)->findBy(['id' => $RecruteurId])[0];
-        
+ 
         return $this->render('annonces/candidat.html.twig', [
-            'annonces' => $annonces,
+            'annonces' => $annonces
+            
             
         ]);
     }
 
-    // #[Route('/annonces/candidatValidated/{id}', name: 'app_annonces_candidat_validated')]
-    // public function annonceCandidatValidated(EntityManagerInterface $em, int $id=null) 
 
-    // {   
-        
-    //     $annonces = $em->getRepository(CandidatsAnnonces::class)->findBy(['validé' => false]); 
-    //     dd($annonces);
-
-    //     if ($id) { 
-    //         $annonces = $em->getRepository(CandidatsAnnonces::class)->findBy(['validé' => false, 'id' => $id]);
-    //         $annonces->setValidé(true); 
-    //         $em->persist($annonces); 
-    //         $em->flush(); 
-    //     }
-        
-    //     return $this->render('annonces/candidat.html.twig', [
-    //         'annonces' => $annonces,
-            
-    //     ]);
-    // }
-    
     #[Route('/annonce/remove/{id}', name: 'app_annonce_remove')]
+    // suppression de l'annonce en cascade 
     public function remove(EntityManagerInterface $em, int $id): Response
     {
-        /// Entity Manager de Symfony
         
         // On récupère l'article qui correspond à l'id passé dans l'URL
         $annonce = $em->getRepository(Annonces::class)->findBy(['id' => $id])[0];
-
-        // L'article est supprimé
         $em->remove($annonce);
         $em->flush();
 
@@ -157,18 +129,13 @@ class AnnoncesController extends AbstractController
     }
     
     #[Route('/annonces/recruteur/{id}', name: 'app_annonces_recruteur')]
+    // liste des annonces par Recruteur 
     public function annonceRecruyteur(EntityManagerInterface $em, int $id=null) 
 
     {   
         $recruteurId = $this->getUser()->getProfilRecruteur()->getId();
 
-        //dd($recruteurId); 
-
-        $annonces = $em->getRepository(Annonces::class)->findBy(['profilRecruteur' => $recruteurId]); 
-
-        // dd($annonces); 
-        // $RecruteurId = $annonce->getProfilRecruteur(); 
-        // $profilCurrentRecruteur = $em->getRepository(ProfilRecruteur::class)->findBy(['id' => $RecruteurId])[0];
+        $annonces = $em->getRepository(Annonces::class)->findBy(['profilRecruteur' => $recruteurId]);
         
         return $this->render('annonces/recruteur.html.twig', [
             'annonces' => $annonces,

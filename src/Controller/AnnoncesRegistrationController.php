@@ -15,12 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class AnnoncesRegistrationController extends AbstractController
 {
     #[Route('/annonces/registration/{id}', name: 'app_annonces_registration')]
+    // création d'une nouvelle annonce avce l'ID user connecté comme recruteur 
     public function index(Request $request, EntityManagerInterface $em, int $id = null): Response
     {
         if($id) {
-            $mode = 'update';
-            // On récupère l'article qui correspond à l'id passé dans l'url
+           
             $annonce = $em->getRepository(Annonces::class)->findBy(['id' => $id])[0];
+            $annonce->setValidated(false); 
         } else {  $annonce = new Annonces();  }
         $identifier = $this->getUser(); 
         $ProfilId = $identifier->getProfilRecruteur()->getId(); 
@@ -46,7 +47,7 @@ class AnnoncesRegistrationController extends AbstractController
     }
 
     #[Route('/annonces/registrationValidated/{id}', name: 'app_annonces_registrationValidated')]
-
+    // validation de l'annonce par le consultant 
     public function validated(Request $request, EntityManagerInterface $em, int $id = null): Response
     {
         if($id) {

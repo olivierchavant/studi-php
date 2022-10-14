@@ -15,12 +15,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ProfilCandidatRegistrationController extends AbstractController
 {
     #[Route('/profil/candidat/registration/{id}', name: 'app_profil_candidat_registration')]
+
+    // création profil candidat 
     public function index(Request $request, EntityManagerInterface $em, int $id = null, SluggerInterface $slugger): Response
     {
         
         if($id) {
             $mode = 'update';
-            // On récupère l'article qui correspond à l'id passé dans l'url
             $profilCurrentCandidat = $em->getRepository(ProfilCandidat::class)->findBy(['id' => $id])[0];
         }
 
@@ -67,35 +68,3 @@ class ProfilCandidatRegistrationController extends AbstractController
     }
 }
 
-// #[Route('/profil/candidat/{id}', name: 'app_profil_candidat')]
-
-// public function edit(EntityManagerInterface $em, Request $request, int $id=null): Response
-// {
-//     // Entity Manager de Symfony
-//     // $em = $this->getDoctrine()->getManager();
-//     // Si un identifiant est présent dans l'url alors il s'agit d'une modification
-//     // Dans le cas contraire il s'agit d'une création d'article
-//     if($id) {
-//         $mode = 'update';
-//         // On récupère l'article qui correspond à l'id passé dans l'url
-//         $user = $em->getRepository(User::class)->findBy(['id' => $id])[0];
-//     }
-//     $form = $this->createForm(UserType::class, $user);
-//     $form->handleRequest($request);
-
-//     if($form->isSubmitted() && $form->isValid()) {
-       
-//         $em->persist($user);
-//         $em->flush();
-//         return $this->redirectToRoute('app_users');
-//     }
-
-//     $parameters = array(
-//         'registrationForm'      => $form->createView(),
-//         'user'   => $user,
-//         'mode'      => $mode
-//     );
-
-//     return $this->render('profil_candidat_registration/index.html.twig', $parameters
-//     );
-// }

@@ -30,9 +30,11 @@
                         Validée
                     {% else %} Non validée 
                     {% endif %} </td>
+                {% if is_granted('ROLE_CONSULTANT') %}
                 <td>  <a href="{{ path('app_annonce_remove', { 'id': annonce.id }) }}" class="btn btn-warning btn-sm">
                          {{ "Supprimer" | trans }}
                 </a> </td>
+                {% endif %} 
                 <td>  <a href="{{ path('app_annonce', { 'id': annonce.id }) }}" class="btn btn-success btn-sm">
                          {{ "Editer" | trans }}
                 </a> </td>

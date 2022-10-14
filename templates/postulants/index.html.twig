@@ -30,7 +30,7 @@
                     {% else %} Non validée 
                     {% endif %} </td>
                 {% if is_granted('ROLE_CONSULTANT') %}
-                    <td> <a href="{{ path('app_annonces_postulant', { 'annonceId': postulant.annonces.id , 'candidatId': postulant.profilCandidat.id } ) }}" class="btn btn-lg btn-success"> {{ "Modifier" | trans }}
+                    <td> <a href="{{ path('app_annonces_postulant', { 'annonceId': postulant.annonces.id , 'candidatId': postulant.profilCandidat.id } ) }}" class="btn btn-sm btn-success"> {{ "Modifier" | trans }}
                         </a> </td> 
                 {% endif %}
                

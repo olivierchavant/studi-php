@@ -35,7 +35,7 @@
 
             {% if candidat.cv is not empty %}
              <li> cv : {{ candidat.cv}}  
-                 <a href="{{ path('app_download_cv', { 'cv': candidat.cv }) }}" class="btn btn-lg btn-success" > {{ "Télécharger" | trans }} </a>
+                 <a href="{{ path('app_download_cv', { 'cv': candidat.cv }) }}" class="btn btn-lg btn-info" > {{ "Télécharger" | trans }} </a>
              </li>
             {% else %} 
                 <li> Pas de CV téléchargé </li> 
@@ -43,12 +43,12 @@
        
     </ul> 
     {% if is_granted('ROLE_CONSULTANT') %}
-            <a href="{{ path('app_annonces_PV', { 'id': association.id }) }}" class="btn btn-success btn-sm">
+            <a href="{{ path('app_annonces_PV', { 'id': association.id }) }}" class="btn btn-success btn-lg">
                          {{ "Vadider" | trans }}
             </a>
     {% endif %}
 
-             <button class="btn btn-lg btn-success"  onclick="history.go(-1);"> retour  </button>
+             <button class="btn btn-lg btn-primary"  onclick="history.go(-1);"> retour  </button>
    
 </div>
 {% endblock %}

@@ -14,12 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     #[Route('/users', name: 'app_users')]
-
+    // liste de tous les utilisateurs 
     public function index(EntityManagerInterface $em ): Response
     {
-        // Entity Manager de Symfony
-        // $em = $this->getDoctrine()->getManager();
-        // On récupère l'article qui correspond à l'id passé dans l'url
+
         $user = $em->getRepository(User::class)->findAll(); 
 
         return $this->render('user/index.html.twig', [
@@ -27,11 +25,13 @@ class UserController extends AbstractController
         ]);
     }
 
+
+  
     #[Route('/user/{id}', name: 'app_user')]
+    // Modification d'un compte USER 
+
     public function edit(EntityManagerInterface $em, Request $request, int $id=null): Response
     {
-        // Entity Manager de Symfony
-        // $em = $this->getDoctrine()->getManager();
         // Si un identifiant est présent dans l'url alors il s'agit d'une modification
         // Dans le cas contraire il s'agit d'une création d'article
         if($id) {
@@ -59,6 +59,8 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/remove/{id}', name: 'app_user_remove')]
+
+    // Suppression d'un compte USER en cascade 
     public function remove(EntityManagerInterface $em, int $id): Response
     {
         /// Entity Manager de Symfony

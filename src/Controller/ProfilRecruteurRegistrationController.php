@@ -13,13 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 class ProfilRecruteurRegistrationController extends AbstractController
 {
     #[Route('/profil/recruteur/registration/{id}', name: 'app_profil_recruteur_registration')]
-
+    // création profil recruteur 
     public function index(Request $request, EntityManagerInterface $em, int $id = null): Response
     {
         
         if($id) {
             $mode = 'update';
-            // On récupère l'article qui correspond à l'id passé dans l'url
+        
             $profilCurrentRecruteur = $em->getRepository(ProfilRecruteur::class)->findBy(['id' => $id])[0];
         }
         $form = $this->createForm(ProfilRecruteurType::class, $profilCurrentRecruteur);
